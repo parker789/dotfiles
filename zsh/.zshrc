@@ -75,5 +75,7 @@ alias n="/usr/local/bin/nvim"
 
 alias sm='displayplacer "id:6444A171-7C57-4159-B927-815EDE8CBE2A res:2560x1440 hz:144 color_depth:8 scaling:off origin:(0,0) degree:0" "id:A78D980B-8055-943E-CBB8-ABBDA7CF2E34 res:2560x1440 hz:144 color_depth:8 scaling:off origin:(-2560,0) degree:0" "id:3BA3D31B-B7FD-773C-7001-4C48D7FAED86 res:2560x1440 hz:144 color_depth:8 scaling:off origin:(2560,0) degree:0"'
 
+alias lg='lazygit'
+
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
