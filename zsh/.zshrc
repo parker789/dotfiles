@@ -50,6 +50,7 @@ export ZSH="$HOME/.oh-my-zsh"
 plugins=(git zsh-nvm)
 
 source $ZSH/oh-my-zsh.sh
+export XDG_CONFIG_HOME="$HOME/.config"
 export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
@@ -64,6 +65,7 @@ fi
 ###################
 export PATH="/Users/parker/.local/bin:~/.emacs.d/bin:$PATH"
 #export MANPAGER="nvim -c 'set ft=man' -"
+export CC="$(which gcc)"
 export DISABLE_AUTO_TITLE=true
 
 alias config="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
