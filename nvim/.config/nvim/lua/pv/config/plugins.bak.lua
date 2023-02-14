@@ -31,7 +31,6 @@ require("packer").startup(function(use)
 			require("project_nvim").setup()
 		end,
 	})
-	use({ "numToStr/Comment.nvim", config = get_setup("comment") })
 	-- 	use({ "lukas-reineke/indent-blankline.nvim", config = get_setup("indent-blankline") })
 	-- use({ "karb94/neoscroll.nvim", config = get_setup("neoscroll") })
 	use({
@@ -48,6 +47,9 @@ require("packer").startup(function(use)
 	})
 	use({ "akinsho/bufferline.nvim", config = get_setup("bufferline") })
 	use({ "nvim-lualine/lualine.nvim", config = get_setup("lualine") })
+
+	use({ "numToStr/Comment.nvim", config = get_setup("comment") })
+
 	-- use({
 	-- 	"nvim-neorg/neorg",
 	-- ft  "norg",
@@ -159,6 +161,7 @@ require("packer").startup(function(use)
 	})
 
 	use({ "github/copilot.vim" })
+	use({ "psliwka/vim-smoothie" })
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins

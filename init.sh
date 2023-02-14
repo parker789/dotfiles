@@ -1,4 +1,4 @@
-f test ! $(which brew); then
+if test ! $(which brew); then
     echo "Installing homebrew"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
@@ -40,6 +40,10 @@ formulaes=(
 	'zoxide'
 	'zsh'
 )
+
+brew tap homebrew/cask-fonts
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+git clone https://github.com/lukechilds/zsh-nvm ~/.oh-my-zsh/custom/plugins/zsh-nvm
 
 lnprint "Checking for necessary brew formulae to install..."
 for formulae in "${formulaes[@]}"; do

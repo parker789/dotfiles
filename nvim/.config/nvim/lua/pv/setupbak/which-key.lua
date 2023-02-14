@@ -8,16 +8,8 @@ wk.setup({
 			enabled = false,
 			suggestions = 20,
 		},
-		presets = {
-			operators = false,
-			motions = false,
-			text_objects = false,
-			windows = false,
-			nav = false,
-			z = false,
-			g = false,
-		},
 	},
+	operators = { gc = "Comments" },
 	key_labels = {
 		["<space>"] = "SPC",
 		["<cr>"] = "RET",
