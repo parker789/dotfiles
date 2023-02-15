@@ -39,7 +39,7 @@ require("mason").setup({ ui = { border = "rounded" } })
 require("mason-lspconfig").setup({
 	automatic_installation = true,
 	ensure_installed = {
-		"sumneko_lua",
+		"lua_ls",
 		"tsserver",
 		"rust_analyzer",
 	},
@@ -53,8 +53,8 @@ require("mason-lspconfig").setup_handlers({
 		require("lspconfig")[server_name].setup({ on_attach = on_attach, capabilities = capabilities })
 	end,
 
-	["sumneko_lua"] = function()
-		require("lspconfig").sumneko_lua.setup({
+	["lua_ls"] = function()
+		require("lspconfig").lua_ls.setup({
 			settings = {
 				Lua = {
 					runtime = {
