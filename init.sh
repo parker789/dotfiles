@@ -3,6 +3,16 @@ if test ! $(which brew); then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
+echo "Installing dependencies..."
+
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+git clone https://github.com/lukechilds/zsh-nvm ~/.oh-my-zsh/custom/plugins/zsh-nvm
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+brew tap homebrew/cask-fonts
+
 echo "Installing homebrew packages..."
 
 # Install Brew formulae
@@ -41,11 +51,7 @@ formulaes=(
 	'zsh'
 )
 
-brew tap homebrew/cask-fonts
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-git clone https://github.com/lukechilds/zsh-nvm ~/.oh-my-zsh/custom/plugins/zsh-nvm
-
-lnprint "Checking for necessary brew formulae to install..."
+echo "Checking for necessary brew formulae to install..."
 for formulae in "${formulaes[@]}"; do
   brew list $formulae &>/dev/null || brew install $formulae
 done
@@ -68,8 +74,12 @@ casks=(
   'tunnelblick'
   'visual-studio-code'
   'wezterm'
+  'discord'
+  'todoist'
+  'little-snitch'
 )
-lnprint "Checking for necessary brew casks to install..."
+
+echo "Checking for necessary brew casks to install..."
 for cask in "${casks[@]}"; do
   brew list --cask $cask &>/dev/null || brew install $cask
 done
