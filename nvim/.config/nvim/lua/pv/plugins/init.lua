@@ -1,13 +1,13 @@
 local get_setup = function(name)
 	return function()
-		require(string.format('pv.setupbak.%s', name))
+		require(string.format("pv.setupbak.%s", name))
 	end
 end
 
 return {
 	"nvim-lua/plenary.nvim",
 	"nathom/filetype.nvim",
-	"kyazdani42/nvim-web-devicons",
+	"nvim-tree/nvim-web-devicons",
 	{ "nvim-telescope/telescope.nvim", dependencies = "nvim-lua/plenary.nvim", config = get_setup("telescope") },
 	"folke/tokyonight.nvim",
 	{
@@ -29,7 +29,8 @@ return {
 		config = get_setup("which-key"),
 	},
 
-	{ "akinsho/bufferline.nvim", config = get_setup("bufferline") },
+	-- { "akinsho/bufferline.nvim", config = get_setup("bufferline") },
+	{ "romgrk/barbar.nvim" },
 	{ "nvim-lualine/lualine.nvim", config = get_setup("lualine") },
 
 	{ "numToStr/Comment.nvim", config = get_setup("comment") },
@@ -40,7 +41,19 @@ return {
 	},
 	{
 		"glepnir/dashboard-nvim",
+		event = "VimEnter",
+		config = function()
+			require("dashboard").setup({
+				-- config
+			})
+		end,
 	},
+	-- {
+	-- 	"goolord/alpha-nvim",
+	-- 	config = function()
+	-- 		require("alpha").setup(require("alpha.themes.startify").config)
+	-- 	end,
+	-- },
 	-- Treesitter
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -67,10 +80,10 @@ return {
 
 	-- Autocompletion
 
--- map('n', '<leader>ff', ":lua require('telescope.builtin').find_files()<cr>")
--- map('n', '<leader>fg', ":lua require('telescope.builtin').live_grep()<cr>")
--- map('n', '<leader>fb', ":lua require('telescope.builtin').buffers()<cr>")
--- map('n', '<leader>fh', ":lua require('telescope.builtin').help_tags()<cr>")
+	-- map('n', '<leader>ff', ":lua require('telescope.builtin').find_files()<cr>")
+	-- map('n', '<leader>fg', ":lua require('telescope.builtin').live_grep()<cr>")
+	-- map('n', '<leader>fb', ":lua require('telescope.builtin').buffers()<cr>")
+	-- map('n', '<leader>fh', ":lua require('telescope.builtin').help_tags()<cr>")
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
@@ -117,4 +130,10 @@ return {
 
 	"github/copilot.vim",
 	"psliwka/vim-smoothie",
+
+	{
+		"nvim-neorg/neorg",
+		build = ":Neorg sync-parsers",
+		config = get_setup("nvim-neorg"),
+	},
 }

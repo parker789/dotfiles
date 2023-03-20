@@ -22,7 +22,6 @@ o.showmatch = true
 o.ruler = true
 o.showmode = true
 o.shiftround = true
-o.termguicolors = true
 o.completeopt = "menuone,noselect"
 o.timeoutlen = 500
 o.cmdheight = 2

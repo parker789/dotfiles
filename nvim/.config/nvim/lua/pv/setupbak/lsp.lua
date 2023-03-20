@@ -40,6 +40,8 @@ require("mason-lspconfig").setup({
 	automatic_installation = true,
 	ensure_installed = {
 		"lua_ls",
+		"html",
+		"cssls",
 		"tsserver",
 		"rust_analyzer",
 	},

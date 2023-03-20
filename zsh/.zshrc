@@ -65,7 +65,7 @@ fi
 ###################
 export PATH="/Users/parker/.local/bin:~/.emacs.d/bin:$PATH"
 #export MANPAGER="nvim -c 'set ft=man' -"
-export CC="$(which gcc)"
+export CC="/opt/homebrew/Cellar/gcc/12.2.0/bin/gcc-12"
 export DISABLE_AUTO_TITLE=true
 
 alias weather="curl 'wttr.in/Charlotte?u'"
