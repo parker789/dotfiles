@@ -4,7 +4,7 @@ return {
 	hide_tab_bar_if_only_one_tab = true,
 	window_decorations = "RESIZE",
 	font = wt.font("Hack Nerd Font"),
-	font_size = 14,
+	font_size = 10,
 	colors = {
 		foreground = "#c0caf5",
 		background = "#1a1b26",

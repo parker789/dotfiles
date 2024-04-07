@@ -1,20 +1,5 @@
 export ZSH="$HOME/.oh-my-zsh"
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-#ZSH_THEME="robbyrussell"
-
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
@@ -63,14 +48,13 @@ fi
 ###################
 ### User Config ###
 ###################
-export PATH="/Users/parker/.local/bin:~/.emacs.d/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.emacs.d/bin:$PATH"
 #export MANPAGER="nvim -c 'set ft=man' -"
-export CC="/opt/homebrew/Cellar/gcc/12.2.0/bin/gcc-12"
 export DISABLE_AUTO_TITLE=true
 
 alias weather="curl 'wttr.in/Charlotte?u'"
 alias ez="nvim ~/.zshrc"
-alias n="/opt/homebrew/bin/nvim"
+alias n="nvim"
 alias tss="tmux-sessionizer"
 
 alias sm='displayplacer "id:6444A171-7C57-4159-B927-815EDE8CBE2A res:2560x1440 hz:144 color_depth:8 scaling:off origin:(0,0) degree:0" "id:A78D980B-8055-943E-CBB8-ABBDA7CF2E34 res:2560x1440 hz:144 color_depth:8 scaling:off origin:(-2560,0) degree:0" "id:3BA3D31B-B7FD-773C-7001-4C48D7FAED86 res:2560x1440 hz:144 color_depth:8 scaling:off origin:(2560,0) degree:0"'
