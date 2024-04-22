@@ -1,0 +1,37 @@
+--- a/dwm.c
++++ b/dwm.c
+@@ -1426,12 +1426,15 @@
+ }
+ 
+ void
+-restoreSession(void)
++startSession(void)
+ {
+-	// restore session
++	// get restorable session
+ 	FILE *fr = fopen(SESSION_FILE, "r");
+-	if (!fr)
++	// if file doesn't exist, assume we're starting for first time and run the autoexec
++	if (!fr) {
++		autostart_exec();
+ 		return;
++	}
+ 
+ 	char *str = malloc(23 * sizeof(char)); // allocate enough space for excepted input from text file
+ 	while (fscanf(fr, "%[^\n] ", str) != EOF) { // read file till the end
+@@ -2623,14 +2626,13 @@
+ 	if (!(dpy = XOpenDisplay(NULL)))
+ 		die("dwm: cannot open display");
+ 	checkotherwm();
+-	autostart_exec();
+ 	setup();
+ #ifdef __OpenBSD__
+ 	if (pledge("stdio rpath proc exec", NULL) == -1)
+ 		die("pledge");
+ #endif /* __OpenBSD__ */
+ 	scan();
+-	restoreSession();
++	startSession();
+ 	run();
+ 	if(restart) execvp(argv[0], argv);
+ 	cleanup();

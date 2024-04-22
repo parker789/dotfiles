@@ -1,0 +1,63 @@
+# Maintainer: Neptune <neptune650@proton.me>
+# Contributor: Sergej Pupykin <pupykin.s+arch@gmail.com>
+# Contributor: Dag Odenhall <dag.odenhall@gmail.com>
+# Contributor: Grigorios Bouzakis <grbzks@gmail.com>
+
+pkgname=dwm
+pkgver=6.4
+pkgrel=2
+pkgdesc="A dynamic window manager for X"
+url="https://dwm.suckless.org"
+arch=('i686' 'x86_64' 'arm' 'armv7h' 'armv6h' 'aarch64')
+license=('MIT')
+options=(zipman)
+depends=('libx11' 'libxinerama' 'libxft' 'freetype2')
+install=dwm.install
+source=(dwm.desktop
+	https://dl.suckless.org/dwm/dwm-$pkgver.tar.gz
+	patch-systray.diff
+	patch-restartsig.diff
+	patch-restoreafterrestart.diff
+	patch-cool-autostart.diff
+	patch-cool-autostart-restartsig-fix.diff
+	patch-pertag.diff
+	patch-actualfullscreen.diff
+	config.h)
+sha256sums=('bc36426772e1471d6dd8c8aed91f288e16949e3463a9933fee6390ee0ccd3f81'
+            'fa9c0d69a584485076cfc18809fd705e5c2080dafb13d5e729a3646ca7703a6e'
+            'e5e205b9286b8b65821ee60fe8dc93bfd686c39cc6c07cdd82af52a824825d06'
+            '648dfcfa1c7314f259cc7a4e9319811460ae0567a3f43f388eedce5a704ff2c0'
+            'c54af111b1cd436de05eb2d3d71ac7f22d69e9335e2c32b7846b5c30c9f05050'
+            '45fc4bfad03d3bcdbbc17f5c5ee10b2c93dd2d24fd53bb9cf69ab67b7a9ba578'
+            'ea5eda59f81ba80714e89c56a3888986d5804c1a0ab190942c0fdf767b029139'
+            '01cf4b387d2b2aee77e9c6288b5193b2cb5192405d1a9916ea82687152967fd1'
+            'fb2577deba308473e9019c79d63cde2b3854ca2a440065230a2c1463389a0221'
+            '25ea35bf105dc179abe5b481708d81050d2099ba87ab94e84ef6e8f5e2b23030')
+
+prepare() {
+  cd "$srcdir/$pkgname-$pkgver"
+  if [[ -f "$srcdir/config.h" ]]; then
+    cp -fv "$srcdir/config.h" config.h
+  fi
+
+  patch --forward --strip=1 --input="$srcdir/patch-systray.diff"
+  patch --forward --strip=1 --input="$srcdir/patch-restartsig.diff"
+  patch --forward --strip=1 --input="$srcdir/patch-restoreafterrestart.diff"
+  patch --forward --strip=1 --input="$srcdir/patch-cool-autostart.diff"
+  patch --forward --strip=1 --input="$srcdir/patch-cool-autostart-restartsig-fix.diff"
+  patch --forward --strip=1 --input="$srcdir/patch-pertag.diff"
+  patch --forward --strip=1 --input="$srcdir/patch-actualfullscreen.diff"
+}
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+  make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11 FREETYPEINC=/usr/include/freetype2
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+  make PREFIX=/usr DESTDIR="$pkgdir" install
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 README "$pkgdir/usr/share/doc/$pkgname/README"
+  install -Dm644 "$srcdir/dwm.desktop" "$pkgdir/usr/share/xsessions/dwm.desktop"
+}
