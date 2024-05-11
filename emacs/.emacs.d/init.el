@@ -10,9 +10,23 @@
 (setq backup-directory-alist '((".*" . "~/.emacs.d/backups/")))
 
 ;; general stuff
+(add-to-list 'default-frame-alist '(font . "Hack Nerd Font:pixelsize=14"))
+
+(setq-default inhibit-startup-message t
+              use-short-answers t)
+
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+
+
 (setq use-dialog-box nil)
 (setq auto-save-default nil)
 (setq column-number-mode t)
+(setq vc-follow-symlinks t)
+(setq find-file-visit-truename t)
+(setq scroll-preserve-screen-position 'always)
+(setq undo-limit 50000000)
 
 (keyboard-translate ?\C-t ?\C-x)
 (keyboard-translate ?\C-x ?\C-t)
@@ -25,6 +39,48 @@
   :config
   (add-to-list 'same-window-buffer-names "*Personal Keybindings*"))
 
+;; spacious-padding
+;;(use-package spacious-padding
+;;  :ensure t
+;;  :config
+;;  (spacious-padding-mode 1))
+
+(use-package casual-dired
+  :ensure t
+  :bind (:map dired-mode-map ("C-o" . 'casual-dired-tmenu)))
+
+(use-package casual
+  :ensure t
+  :bind (:map calc-mode-map ("C-o" . 'casual-main-menu)))
+
+;; golden ratio
+(use-package golden-ratio
+  :ensure t
+  :config
+  (golden-ratio-mode 1))
+
+;; modeline
+(use-package nerd-icons
+  :ensure t
+  :custom
+  (nerd-icons-font-family "Hack Nerd Font"))
+(use-package doom-modeline
+  :ensure t
+  :requires nerd-icons
+  :init
+  (doom-modeline-mode 1)
+  :config
+  (setq doom-modeline-vcs-max-length 35))
+
+;; god-mode
+;;(use-package god-mode
+;;  :ensure t
+;;  :init
+;;  (setq god-exempt-major-modes nil)
+;;  (setq god-exempt-predicates nil)
+;;  :config
+;;  (god-mode))
+
 ;; which-key
 (use-package which-key
   :ensure t
@@ -32,10 +88,23 @@
   (which-key-mode))
 
 ;; window centered
-(use-package centered-window
-  :ensure t
-  :config
-  (global-set-key (kbd "C-M-z") 'centeredp-window-mode))
+;;(use-package centered-window
+;;  :ensure t
+;;  :config
+;;  (global-set-key (kbd "C-M-z") 'centeredp-window-mode))
+
+;; useful custom functions
+(defun diff-localdev ()
+  (interactive)
+  (diff "/home/parker/Dev/localdev/config.yaml" "/home/parker/Dev/badge/services/localdev/cmd/config.template.yaml"))
+
+(defun edit-emacs-config ()
+  (interactive)
+  (find-file "/home/parker/.emacs.d/init.el"))
+
+(defun kill-all-buffers ()
+  (interactive)
+  (mapc 'kill-buffer (buffer-list)))
 
 ;; theme
 (defun reload-theme ()
@@ -50,6 +119,8 @@
 (global-set-key (kbd "S-C-<right>") (lambda() (interactive) (enlarge-window-horizontally 5)))
 (global-set-key (kbd "C-v") (lambda() (interactive) (scroll-up-command 20)))
 (global-set-key (kbd "M-v") (lambda() (interactive) (scroll-down-command 20)))
+(global-set-key (kbd "C-x k") 'kill-current-buffer)
+(global-set-key (kbd "M-o") #'other-window)
 (global-set-key (kbd "C-c C-y") (lambda()
 				  (interactive)
        				  (move-beginning-of-line 1)
@@ -95,7 +166,19 @@
   (js-ts-mode . prettier-js-mode)
   (javascript-mode . prettier-js-mode)))
 
+;; rainbow parens
+(use-package rainbow-delimiters
+  :ensure t
+  :config
+  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+
 ;; org mode stuff
+(setq org-hide-emphasis-markers t)
+
+(font-lock-add-keywords 'org-mode
+                        '(("^ *\\([-]\\) "
+                           (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+
 (use-package org-bullets
   :ensure t
   :config
@@ -195,8 +278,7 @@
 
 ;; The `embark-consult' package is glue code to tie together `embark'
 ;; and `consult'.
-;;(use-package embark-consult
-;;  :ensure t)
+(use-package embark-consult :ensure t)
 
 ;; The `wgrep' packages lets us edit the results of a grep search
 ;; while inside a `grep-mode' buffer.  All we need is to toggle the
@@ -251,6 +333,8 @@
   (setq read-process-output-max (* 1024 1024)) ;; 1mb
   (setq gc-cons-threshold 100000000)      ; needed to increase to 100mb
   (setq lsp-keymap-prefix "C-c l")
+  (setq lsp-eldoc-render-all t)
+  (setq lsp-headerline-breadcrumb-enable-diagnostics nil)
   :custom
   (corfu-min-width 80)
   (corfu-max-width corfu-min-width)       ; Always have the same width
@@ -267,9 +351,24 @@
   :commands
   (lsp lsp-deferred))
 
-;; magit stuff
+;;(use-package lsp-ui
+;;  :ensure t)
+
+;; git stuff
 (use-package magit
   :ensure t)
+
+(use-package blamer
+  :ensure t
+  ;; :bind (("s-i" . blamer-show-commit-info)
+  ;;        ("C-c i" . blamer-show-posframe-commit-info))
+  :defer 20
+  :custom
+  (blamer-idle-time 1)
+  (blamer-min-offset 70)
+  (blamer-type 'visual)
+  :config
+  (global-blamer-mode 1))
 
 ;; forge configuration
 ;;(setq auth-sources '("~/.authinfo.gpg"))
@@ -362,6 +461,8 @@
 ;; treesitter stuff
 (use-package treesit-auto
   :ensure t
+  :init
+  (setq treesit-font-lock-level 4)
   :custom
   (treesit-auto-install 'prompt)
   :config
@@ -389,8 +490,25 @@
          (tsx-ts-mode . combobulate-mode))
   :load-path ("/home/parker/.cloned-stuff/combobulate"))
 
+;; avy
+(use-package avy
+  :ensure t)
+
+;; persective
+(use-package perspective
+  :ensure t
+  :bind
+  ("C-x C-b" . persp-list-buffers)
+    ("C-x b" . persp-switch-to-buffer*)
+         ("C-x k" . persp-kill-buffer*)
+  :custom
+  (persp-mode-prefix-key (kbd "C-z"))  ; pick your own prefix key here
+  :init
+  (persp-mode))
+
 ;; regex stuff
 (setq reb-re-syntax 'string)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -401,10 +519,10 @@
  '(custom-safe-themes
    '("d7472ecf2fe353f04c9b1a6cada41e061d252c2afb2448186a833647aab7860c" "db6ea4e50615a1dba14b53a7c18c992ad1171203651d151bf5af80178a87a729" "bcd28ae86cc1c803df77db729d73affe48e9726aa6e75eeab1d36630993fb69c" "d834c78e066eecb2cdc00aea1584d26d2efca3baa4c981d3bb3238b8e439881f" "959fdaca32e1537ecd36c6bcda23ad049e40faf6f13ee1a07a2e8f6513d3e841" default))
  '(package-selected-packages
-   '(wgrep embark-consult embark which-key multiple-cursors treesit-auto cape corfu magit lsp-mode marginalia orderless vertico org-bullets prettier-js smartscan rainbow-mode exec-path-from-shell centered-window)))
+   '(casual casual-calc casual-dired perspective olivetti blamer nerd-icons hydra god-mode typescript-mode avy wgrep embark-consult embark which-key multiple-cursors treesit-auto cape corfu magit lsp-mode marginalia orderless vertico prettier-js smartscan rainbow-mode exec-path-from-shell centered-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(fringe ((t (:background "#1a1b26")))))
+ )
